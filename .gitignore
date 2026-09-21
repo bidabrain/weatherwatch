@@ -1,0 +1,14 @@
+# 本机 SDK 路径，每台机器不同
+local.properties
+
+.gradle/
+build/
+*.iml
+.idea/
+.kotlin/
+
+# 签名密钥绝不入库。CI 从 DEBUG_KEYSTORE_BASE64 这个 Secret 解码到这里，
+# 本地则回落到 ~/.android/debug.keystore（见 watch/build.gradle.kts）
+keystore/
+*.jks
+*.keystore

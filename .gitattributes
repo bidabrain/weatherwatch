@@ -1,0 +1,14 @@
+# 仓库里统一存 LF。gradlew 是 shell 脚本，
+# 带 CRLF 进仓库会让 Linux CI 直接报 bad interpreter。
+* text=auto eol=lf
+
+# 这两类只在 Windows 上跑，保留 CRLF
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+
+gradlew text eol=lf
+
+*.jar binary
+*.apk binary
+*.keystore binary
+*.png binary

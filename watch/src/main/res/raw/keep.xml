@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  资源压缩器不解析 adaptive-icon XML 里对 background/foreground 的引用：
+  构建报告里这两个是 reachable=false，只是碰巧没被删。
+  显式 keep，避免换 AGP 版本后图标被压成空白。
+-->
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="@drawable/ic_launcher_foreground,@drawable/ic_launcher_background" />

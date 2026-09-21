@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  云后透出的太阳。配色取自 App 内部的天气强调色（C.Sun / C.Cloud），
+  图标和界面因此是同一套视觉语言。
+
+  自适应图标画布是 108x108，但**实际可见区只有中间的 72**（坐标 18..90），
+  再往内 66 (21..87) 才是各种遮罩都切不到的安全区。
+  原始路径按 108 画，外面套一个 0.82 的缩放组收进安全区，
+  这样改构图时只需调路径，不用重算每个坐标。
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <group
+        android:pivotX="54"
+        android:pivotY="54"
+        android:scaleX="0.82"
+        android:scaleY="0.82">
+
+        <!-- 阳光。只画右上半圈，左下会被云遮住，画了也看不见 -->
+        <path
+            android:pathData="M66,28 V23 M77.3,32.7 L80.8,29.2 M82,44 H87 M77.3,55.3 L80.8,58.8"
+            android:strokeColor="#FFB340"
+            android:strokeLineCap="round"
+            android:strokeWidth="4" />
+
+        <!-- 日轮 -->
+        <path
+            android:fillColor="#FFB340"
+            android:pathData="M66,44 m-12,0 a12,12 0 1,0 24,0 a12,12 0 1,0 -24,0 Z" />
+
+        <!-- 云：三个圆叠一条圆角底边 -->
+        <path
+            android:fillColor="#F4F8FC"
+            android:pathData="M38,62 m-12,0 a12,12 0 1,0 24,0 a12,12 0 1,0 -24,0 Z" />
+        <path
+            android:fillColor="#F4F8FC"
+            android:pathData="M50,56 m-15,0 a15,15 0 1,0 30,0 a15,15 0 1,0 -30,0 Z" />
+        <path
+            android:fillColor="#F4F8FC"
+            android:pathData="M61,64 m-10,0 a10,10 0 1,0 20,0 a10,10 0 1,0 -20,0 Z" />
+        <path
+            android:fillColor="#F4F8FC"
+            android:pathData="M34.5,64 h31 a6.5,6.5 0 0 1 0,13 h-31 a6.5,6.5 0 0 1 0,-13 Z" />
+    </group>
+</vector>
