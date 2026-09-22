@@ -19,12 +19,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import com.weatherwatch.watch.ui.components.SwipeToDismissBox
 import kotlinx.coroutines.delay
 
 private const val PAGE_COUNT = 2
 
 @Composable
-fun WatchApp(controller: WeatherController) {
+fun WatchApp(controller: WeatherController, onExit: () -> Unit) {
     val state by controller.ui.collectAsState()
 
     // 更新于 N 分钟前要自己走字。30 秒一跳，够准确又不会频繁重组。
@@ -35,18 +36,25 @@ fun WatchApp(controller: WeatherController) {
         }
     }
 
-    Box(Modifier.fillMaxSize().background(C.Bg)) {
-        if (state.search.visible) {
-            // 还没选过城市时不响应返回：退出去也没东西可看
-            BackHandler(enabled = state.city != null) { controller.closeSearch() }
-            SearchPage(
-                state = state.search,
-                currentCityId = state.city?.id,
-                onQueryChange = controller::onQueryChange,
-                onPick = controller::selectCity,
-            )
-        } else {
-            WeatherPages(state, now, controller)
+    // 右滑和系统返回走同一套语义：搜索页开着就退回天气页，否则退出 App
+    val goBack: () -> Unit = {
+        if (state.search.visible && state.city != null) controller.closeSearch() else onExit()
+    }
+
+    SwipeToDismissBox(onDismissed = goBack, modifier = Modifier.background(C.Bg)) {
+        Box(Modifier.fillMaxSize().background(C.Bg)) {
+            if (state.search.visible) {
+                // 还没选过城市时不拦截返回：此时返回就该直接退出 App
+                BackHandler(enabled = state.city != null) { controller.closeSearch() }
+                SearchPage(
+                    state = state.search,
+                    currentCityId = state.city?.id,
+                    onQueryChange = controller::onQueryChange,
+                    onPick = controller::selectCity,
+                )
+            } else {
+                WeatherPages(state, now, controller)
+            }
         }
     }
 }

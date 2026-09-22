@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
             CompositionLocalProvider(
                 LocalDensity provides Density(d.density, d.fontScale.coerceAtMost(1.15f)),
             ) {
-                WatchApp(controller)
+                WatchApp(controller, onExit = { finish() })
             }
         }
     }
